@@ -1,10 +1,4 @@
-export interface Logger {
-    error(msg: string): void;
-    warn(msg: string): void;
-    info(msg: string): void;
-    debug(msg: string): void;
-    trace(msg: string): void;
-}
+import {Logger} from "#app/common/logger.js";
 
 export class ConsoleLogger implements Logger {
     debug(msg: string): void {

@@ -1,10 +1,11 @@
 import axios from 'axios';
-import {HttpClient, HttpRequestOptions} from "#app/common/interfaces/http_client.js";
-import {Logger} from "#app/common/interfaces/logger.js";
+import {HttpClient, HttpRequestOptions} from "#app/common/http_client.js";
+import {Logger} from "#app/common/logger.js";
 
 export class AxiosHttpClient implements HttpClient {
     constructor(private logger: Logger) {
     }
+
     async get<T>(url: string, options: HttpRequestOptions): Promise<T|null> {
         try {
             const { data } = await axios.get<T>(url, options);
