@@ -1,0 +1,68 @@
+https://coinmarketcap.com/ service предоставляет HTTP API.
+Можно получить текущие цены для указанных крипто валют.
+Цены кешируются/меняются каждые 60 секунд.
+
+# Returns a lightweight latest price for one or more cryptocurrencies
+curl -X GET \
+  --header 'X-CMC_PRO_API_KEY: '"${COIN_MARKET_CAP_API_KEY}" \
+  'https://pro-api.coinmarketcap.com/v2/simple/price?symbol=BTC,ETH,trash,USDT&convert=USD'
+
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Bitcoin",
+            "symbol": "BTC",
+            "slug": "bitcoin",
+            "quotes": [
+                {
+                    "symbol": "USD",
+                    "price": 77113.05600061904
+                }
+            ]
+        },
+        {
+            "id": 1027,
+            "name": "Ethereum",
+            "symbol": "ETH",
+            "slug": "ethereum",
+            "quotes": [
+                {
+                    "symbol": "USD",
+                    "price": 2238.067877747514
+                }
+            ]
+        },
+        {
+            "id": 38599,
+            "name": "TRASH COIN",
+            "symbol": "TRASH",
+            "slug": "trash-coin",
+            "quotes": [
+                {
+                    "symbol": "USD",
+                    "price": 0.00016588461764458
+                }
+            ]
+        },
+        {
+            "id": 825,
+            "name": "Tether USDt",
+            "symbol": "USDT",
+            "slug": "tether",
+            "quotes": [
+                {
+                    "symbol": "USD",
+                    "price": 0.9989199717806616
+                }
+            ]
+        }
+    ],
+    "status": {
+        "timestamp": "2026-10-30T17:35:09.652Z",
+        "error_code": "0",
+        "error_message": "",
+        "elapsed": 4,
+        "credit_count": 1
+    }
+}

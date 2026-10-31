@@ -1,0 +1,31 @@
+{
+  "name": "coin_market_cap",
+  "version": "1.0.0",
+  "description": "Crypto API based on CoinMarketCap",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "dotenv -e .env.dev -- tsx app/index.ts",
+    "build": "tsc",
+    "start": "NODE_ENV=production node dist/index.js",
+    "clean": "rm -rf ./dist ./tsconfig.tsbuildinfo",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.21.0",
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^11.1.0",
+    "jest": "^30.5.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "imports": {
+    "#app/*": "./dist/*"
+  }
+}
