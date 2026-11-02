@@ -1,17 +1,12 @@
 import express, {ErrorRequestHandler, Express, RequestHandler, Router} from "express";
-import {HttpServer} from "#app/common/interfaces/http_server.js";
-import {Logger} from "#app/common/interfaces/logger.js";
-import {Config} from "#app/services/config.js";
+import {HttpServer} from "#app/common/http_server.js";
+import {Logger} from "#app/common/logger.js";
+import {Config} from "#app/config.js";
 import * as http from "node:http";
-
-// err: HttpError,
-// req: Request,
-// res: Response,
-// next: NextFunction
 
 export class ExpressHttpServer implements HttpServer {
     private app: Express;
-    private server: http.Server;
+    private server: http.Server|undefined;
 
     constructor(
         private readonly logger: Logger,
@@ -32,9 +27,13 @@ export class ExpressHttpServer implements HttpServer {
 
     close(): Promise<void> {
         if (!this.server) return Promise.resolve();
+
+        const server = this.server;
+        this.server = undefined;
+
         this.logger.info(`HTTP server closing...`);
         return new Promise((resolve) => {
-            this.server.close(() => {
+            server.close(() => {
                 this.logger.info(`HTTP server closed`);
                 resolve();
             });

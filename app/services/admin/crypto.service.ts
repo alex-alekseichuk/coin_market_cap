@@ -1,21 +1,18 @@
 import {CryptoCmdRepo} from "#app/repositories/crypto.cmd.repo.js";
 import {Crypto} from "#app/domain/crypto.js";
+import {httpError} from "#app/common/utils.js";
 
 export type CreateCryptoDTO = Crypto;
 export type UpdateCryptoDTO = {
-    price: number;
-    timestamp: Date;
-};
-export type UpdateCryptoPriceDTO = {
-    price: number;
-    timestamp: Date;
+    name?: string;
+    price?: number;
 };
 
 export class AdminCryptoService {
     constructor(private readonly cryptoCmdRepo: CryptoCmdRepo) {
     }
 
-    getAll(): Promise<Crypto[]> {
+    getAll(): Promise<Crypto[]|null> {
         return this.cryptoCmdRepo.findAll();
     }
 
@@ -23,9 +20,7 @@ export class AdminCryptoService {
         const crypto = await this.cryptoCmdRepo.findById(id);
 
         if (!crypto) {
-            throw Object.assign(new Error("Crypto not found"), {
-                status: 404
-            });
+            throw httpError(404, "Crypto not found");
         }
 
         return crypto;

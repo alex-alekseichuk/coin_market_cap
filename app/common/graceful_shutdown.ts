@@ -1,4 +1,4 @@
-import {Logger} from "#app/common/interfaces/logger.js";
+import {Logger} from "#app/common/logger.js";
 
 export type CloseFn = () => Promise<void>;
 
@@ -12,8 +12,9 @@ export class GracefulShutdown {
         process.on("SIGTERM", () => this.shutdown()); // Docker / Kubernetes
     }
 
-    add(closeFn: CloseFn): void {
+    add(closeFn: CloseFn): GracefulShutdown {
         this.close_fns.push(closeFn);
+        return this;
     }
 
     async shutdown(): Promise<void> {

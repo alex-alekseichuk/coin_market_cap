@@ -1,7 +1,6 @@
 import {Logger} from "#app/common/logger.js";
 import {NextFunction, Request, Response} from "express";
-
-type ErrorWithStatus = Error & { status?: number };
+import {ErrorWithStatus} from "#app/common/utils.js";
 
 export function buildErrorMiddleware(logger: Logger) {
     return function errorMiddleware(

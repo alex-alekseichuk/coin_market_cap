@@ -3,5 +3,5 @@ export type Crypto = {
     symbol: string;
     name: string;
     price: number|null;
-    timestamp: Date|null;
+    updated_at: Date|null;
 }
