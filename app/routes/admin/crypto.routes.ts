@@ -1,7 +1,11 @@
-import { Router, Request, Response } from "express";
+import {Router, Request, Response} from "express";
 import {AdminCryptoService} from "#app/services/admin/crypto.service.js";
+import {apiErrorMiddleware} from "#app/common/express/error.middleware.js";
 
-export default function buildAdminCryptoRoutes(adminCryptoService: AdminCryptoService, router?: Router): Router{
+export default function buildAdminCryptoRoutes(
+        adminCryptoService: AdminCryptoService,
+        router?: Router,
+    ): Router{
     router = router ?? Router();
 
     router.get("/", (req: Request, res: Response) => {
@@ -33,6 +37,8 @@ export default function buildAdminCryptoRoutes(adminCryptoService: AdminCryptoSe
 
         res.status(204).send();
     });
+
+    router.use(apiErrorMiddleware());
 
     return router;
 }

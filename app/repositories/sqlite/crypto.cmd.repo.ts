@@ -24,8 +24,21 @@ export class SqliteCryptoCmdRepo implements CryptoCmdRepo {
                 updated_at TEXT
             )
         `);
-    }
 
+        await this.db.exec(`
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_cryptos_symbol
+                ON cryptos (symbol COLLATE NOCASE);
+        `);
+
+        await this.db.exec(`
+            CREATE TABLE IF NOT EXISTS crypto_logs (
+                crypto_id TEXT,
+                price NUMERIC,
+                updated_at TEXT,
+                PRIMARY KEY (crypto_id, updated_at)
+            )
+        `);
+    }
 
     async findAll(): Promise<Crypto[]|null> {
         const rows: CryptoRow[] | null = await this.db.all<CryptoRow[]>(
@@ -47,7 +60,7 @@ export class SqliteCryptoCmdRepo implements CryptoCmdRepo {
     async create(data: CreateCryptoDTO): Promise<Crypto|null> {
         await this.db.run(
             `INSERT INTO cryptos (id, name, symbol, updated_at) VALUES (?, ?, ?, ?)`,
-            [data.id, data.name, data.symbol, dtStr()]
+            [data.id, data.name, data.symbol.toUpperCase(), dtStr()]
         );
 
         return data;

@@ -6,10 +6,16 @@ export type Config = {
     }
     app: {
         port: number;
+        auth_key: string;
     }
 }
 
 export default function buildConfig() : Config {
+    if (!process.env.APP_AUTH_KEY) {
+        console.log('APP_AUTH_KEY is required.');
+        process.exit(1);
+    }
+
     return {
         currency: 'USD',
         coinMarketCapApi: {
@@ -18,6 +24,7 @@ export default function buildConfig() : Config {
         },
         app: {
             port: Number(process.env.APP_PORT ?? 3000),
+            auth_key: String(process.env.APP_AUTH_KEY),
         }
     }
 }

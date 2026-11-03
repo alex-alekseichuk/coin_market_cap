@@ -15,7 +15,8 @@ export class DummyCryptoCmdRepo implements CryptoCmdRepo {
 
     create(data: CreateCryptoDTO): Promise<Crypto|null> {
         const crypto: Crypto = {
-            ...data
+            ...data,
+            symbol: data.symbol.toUpperCase(),
         };
 
         this.cryptos.push(crypto);

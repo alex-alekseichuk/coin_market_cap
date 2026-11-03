@@ -7,10 +7,3 @@ export function strDt(s: String): Date {
     return new Date(s.replace(' ', 'T'));
 }
 
-export type ErrorWithStatus = Error & { status?: number };
-
-export function httpError(status: number, message: string): ErrorWithStatus {
-    return Object.assign(new Error(message), {
-        status,
-    });
-}

@@ -6,13 +6,17 @@
 - implement CRUD
 - sqlite layer
 - graceful_shutdown
+- implement middlewares to handle errors on service layer and http one
+- errors on the service layer of admin API
+- add simpleAuthBearerMiddleware(key)
 
 ## TODO:
-- handle errors on the service layer
 - implement crypto API
 - implement cron-like job for getting the prices from CMP API
-- add simpleAuthBearerMiddleware(key)
 - add validations/*.ts schemas and schemaValidationMiddleware
 - add swagger
 - move tables creation to migrations
 - add Dockerfile
+- refactor: move api, repositories, and routes under infra/ subfolder.
+- add AGENTS.md
+

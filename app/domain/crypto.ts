@@ -5,3 +5,8 @@ export type Crypto = {
     price: number|null;
     updated_at: Date|null;
 }
+
+export type CryptoLog = {
+    price: number;
+    updated_at: Date;
+}
