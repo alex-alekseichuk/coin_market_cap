@@ -12,7 +12,7 @@ export default function buildCryptoRoutes(
         res.json(cryptoService.getCryptos());
     });
 
-    router.get("/:symbol/logs", (req: Request, res: Response) => {
+    router.get("/:symbol/history", (req: Request, res: Response) => {
         const symbol = String(req.params.symbol);
 
         res.json(cryptoService.getCryptoLogsBySymbol(symbol));

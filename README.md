@@ -9,14 +9,17 @@
 - implement middlewares to handle errors on service layer and http one
 - errors on the service layer of admin API
 - add simpleAuthBearerMiddleware(key)
+- implement public crypto history API
 
 ## TODO:
-- implement crypto API
 - implement cron-like job for getting the prices from CMP API
 - add validations/*.ts schemas and schemaValidationMiddleware
 - add swagger
-- move tables creation to migrations
+- refactor: move tables creation to migrations
 - add Dockerfile
 - refactor: move api, repositories, and routes under infra/ subfolder.
 - add AGENTS.md
 
+## Contacts for feedback:
+- email: alex.alekseichuk@gmail.com
+- telegram: @kikudjiro
