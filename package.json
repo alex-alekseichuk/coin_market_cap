@@ -21,6 +21,8 @@
     "express": "^5.3.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^6.0.1",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
@@ -28,6 +30,8 @@
     "@swc/jest": "^0.2.39",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.6",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "dotenv-cli": "^11.1.0",
     "jest": "^30.5.2",
     "tsx": "^4.23.15",

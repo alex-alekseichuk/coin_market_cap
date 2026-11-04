@@ -5,7 +5,7 @@ import {Config} from "#app/config.js";
 import * as http from "node:http";
 
 export class ExpressHttpServer implements HttpServer {
-    private app: Express;
+    public app: Express;
     private server: http.Server|undefined;
 
     constructor(
@@ -40,7 +40,7 @@ export class ExpressHttpServer implements HttpServer {
         })
     }
 
-    useRouter(url: string, router: Router) {
+    use(url: string, router: Router|RequestHandler) {
         this.app.use(url, router);
     }
     useMiddleware(middleware: RequestHandler|ErrorRequestHandler) {

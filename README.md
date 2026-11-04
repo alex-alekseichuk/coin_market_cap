@@ -56,6 +56,10 @@ There is graceful_shutdown module to close DB, cron, and http_server on exit.
 
 The validation of HTTP requests is implemented by zod lib.
 
+There is a swagger:
+- Swagger Web UI: `/api-docs`
+- OpenAPI spec.: `/api-docs.json`
+
 ## Docker
 
 Build and run:
@@ -90,13 +94,14 @@ docker run -d --name coin-market-cap \
 - implement cron-like job for getting the prices from CMP API
 - add Dockerfile
 - add validations/*.ts schemas and schemaValidationMiddleware
+- jest unit tests
+- add swagger
+- add /ping route
 
 ### TODO
-- add swagger
 - refactor: move tables creation to migrations
 - refactor: move api, repositories, and routes under infra/ subfolder.
 - add AGENTS.md
-- add /ping route
 - add middleware to log requests
 - add prometheus metrics via open-telemetry
 

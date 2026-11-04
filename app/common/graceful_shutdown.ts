@@ -18,9 +18,16 @@ export class GracefulShutdown {
     }
 
     async shutdown(): Promise<void> {
-        this.logger.info("Shutdown...");
-        for (const close_fn of this.close_fns) {
-            await close_fn();
+        if (this.close_fns.length === 0) {
+            return;
         }
+
+        setTimeout(() => process.exit(2), 10_000);
+
+        this.logger.info("Shutdown...");
+        const close_fns = this.close_fns;
+        this.close_fns = [];
+        await Promise.all(close_fns.map(close_fn => close_fn()));
+        process.exit(0);
     }
 }

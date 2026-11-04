@@ -132,7 +132,7 @@ export class Cron {
                                 }
                                 resolve();
                             }).then(() => {});
-                            
+
                         }
                     }
                 }
@@ -142,11 +142,13 @@ export class Cron {
         }, this._check_interval);
     }
 
-    public stop() {
+    public stop(): Promise<void> {
         if (this.interval) {
             clearInterval(this.interval);
             this.interval = null;
         }
+        this.logger.info('Cron stop');
+        return Promise.resolve();
     }
 }
 
