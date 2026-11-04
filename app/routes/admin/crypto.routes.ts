@@ -1,12 +1,15 @@
 import {Router, Request, Response} from "express";
 import {AdminCryptoService} from "#app/services/admin/crypto.service.js";
 import {apiErrorMiddleware} from "#app/common/express/error.middleware.js";
+import {schemaValidationMiddleware} from "#app/common/express/validation.middleware.js";
 
 export default function buildAdminCryptoRoutes(
         adminCryptoService: AdminCryptoService,
         router?: Router,
     ): Router{
     router = router ?? Router();
+
+    router.use(schemaValidationMiddleware());
 
     router.get("/", async (req: Request, res: Response) => {
         res.json(await adminCryptoService.getAll());

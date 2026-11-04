@@ -87,9 +87,9 @@ docker run -d --name coin-market-cap \
 - implement public crypto history API
 - implement cron-like job for getting the prices from CMP API
 - add Dockerfile
+- add validations/*.ts schemas and schemaValidationMiddleware
 
 ### TODO
-- add validations/*.ts schemas and schemaValidationMiddleware
 - add swagger
 - refactor: move tables creation to migrations
 - refactor: move api, repositories, and routes under infra/ subfolder.
