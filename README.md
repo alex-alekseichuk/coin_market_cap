@@ -4,7 +4,7 @@
 - email: alex.alekseichuk@gmail.com
 - telegram: @kikudjiro
 
-## Architecture
+## System Architecture
 
 There are 2 HTTP API:
 - admin API for CRUD management of the cryptocurrencies for tracking the prices
@@ -29,6 +29,16 @@ Services are really separated from the infra, including object model and errors 
 
 common/ modules are ready to be moved to separated shared NPM packages
 to be reused in other services.
+
+express is used for HTTP layer.
+
+3rd-party software, like express, axios, etc., are used via specific common adapters.
+So, the app doesn't depend on them, and can be refactored to use another libs.
+
+The TypeScript is used. The dependencies are used as TypeScript interfaces.
+
+There is simplified version of cron engine implemented by hand.
+It's much simpler than node-cron, but cover all the scheduling needs of the app.
 
 ### index.ts
 
