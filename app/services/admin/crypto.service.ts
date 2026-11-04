@@ -6,6 +6,7 @@ export type CreateCryptoDTO = Crypto;
 export type UpdateCryptoDTO = {
     name?: string;
     price?: number;
+    updated_at?: Date,
 };
 
 export class AdminCryptoService {

@@ -7,6 +7,7 @@ export type Crypto = {
 }
 
 export type CryptoLog = {
+    crypto_id: string,
     price: number;
     updated_at: Date;
 }

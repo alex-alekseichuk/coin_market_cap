@@ -5,6 +5,7 @@ import {ExpressHttpServer} from "#app/common/express/http_server.js";
 import {httpErrorMiddleware} from "#app/common/express/error.middleware.js";
 import {simpleAuthBearerMiddleware} from "#app/common/express/simple_auth_bearer.middleware.js";
 import {SqliteDb} from "#app/common/sqlite_db.js";
+import {Cron} from "#app/common/cron.js";
 
 //import {DummyCryptoCmdRepo} from "#app/repositories/dummy/crypto.cmd.repo.js";
 import {SqliteCryptoCmdRepo} from "#app/repositories/sqlite/crypto.cmd.repo.js";
@@ -12,6 +13,7 @@ import {SqliteCryptoQueryRepo} from "#app/repositories/sqlite/crypto.query.repo.
 
 import {AdminCryptoService} from "#app/services/admin/crypto.service.js";
 import {CryptoService} from "#app/services/crypto.service.js";
+import { CryptoLoaderService } from "./services/crypto_loader.service.js";
 
 import buildAdminCryptoRoutes from "#app/routes/admin/crypto.routes.js";
 import buildCryptoRoutes from "#app/routes/public/crypto.routes.js";
@@ -32,6 +34,7 @@ const cryptoQueryRepo = new SqliteCryptoQueryRepo(logger, sqliteDb);
 
 const adminCryptoService = new AdminCryptoService(cryptoCmdRepo);
 const cryptoService = new CryptoService(cryptoQueryRepo);
+const cryptoLoaderService = new CryptoLoaderService(cryptoCmdRepo);
 
 const http_server = new ExpressHttpServer(logger, config);
 http_server.useMiddleware(simpleAuthBearerMiddleware(logger, config.app.auth_key));
@@ -42,8 +45,13 @@ http_server.useRouter('/crypto/v1', buildCryptoRoutes(cryptoService));
 http_server.useMiddleware(httpErrorMiddleware(logger));
 await http_server.listen(config.app.port ?? 3000);
 
+const cron = new Cron(logger);
+cron.schedule('*/5 * * * *', cryptoLoaderService.load);
+cron.start();
+
 const gracefulShutdown = new GracefulShutdown(logger);
 gracefulShutdown
+    .add(async () => cron.stop())
     .add(() => http_server.close())
     .add(() => sqliteDb.close())
 ;

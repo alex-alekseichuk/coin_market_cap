@@ -1,6 +1,6 @@
-import {Config} from "#app/services/config.js";
-import {HttpClient} from "#app/common/interfaces/http_client.js";
-import {Logger} from "#app/common/interfaces/logger.js";
+import {Config} from "#app/config.js";
+import {HttpClient} from "#app/common/http_client.js";
+import {Logger} from "#app/common/logger.js";
 
 export type SimplePrice = {
     symbol: string;

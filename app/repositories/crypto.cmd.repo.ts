@@ -1,4 +1,4 @@
-import {Crypto} from "#app/domain/crypto.js";
+import {Crypto, CryptoLog} from "#app/domain/crypto.js";
 import {CreateCryptoDTO, UpdateCryptoDTO} from "#app/services/admin/crypto.service.js";
 
 export interface CryptoCmdRepo {
@@ -7,5 +7,6 @@ export interface CryptoCmdRepo {
     create(data: CreateCryptoDTO): Promise<Crypto|null>;
     update(id: string, data: UpdateCryptoDTO): Promise<Crypto|null>
     delete(id: string): Promise<boolean>;
+    saveCryptoLogs(logs: CryptoLog[]): Promise<void>;
 }
 

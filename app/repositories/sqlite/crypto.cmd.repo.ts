@@ -4,6 +4,7 @@ import {CreateCryptoDTO, UpdateCryptoDTO} from "#app/services/admin/crypto.servi
 import {Logger} from "#app/common/logger.js";
 import {SqliteDb} from "#app/common/sqlite_db.js";
 import {dtStr, strDt} from "#app/common/utils.js";
+import { SimplePrice } from "#app/api/coin_market_cap.api.js";
 
 type CryptoRow = Omit<Crypto, "updated_at"> & {updated_at: string};
 
@@ -89,4 +90,15 @@ export class SqliteCryptoCmdRepo implements CryptoCmdRepo {
     async delete(id: string): Promise<boolean> {
         return null !== await this.db.run('DELETE FROM cryptos WHERE id = ?', [id]);
     }
+
+    async saveCryptoLogs(logs: SimplePrice[]): Promise<void> {
+        const data: any[] = [];
+
+        await this.db.run(
+            `INSERT INTO crypto_logs (crypto_id, price, updated_at) VALUES (?, ?, ?)`,
+            [data.id, data.name, data.symbol.toUpperCase(), dtStr()]
+        );
+        
+    }
+    
 }

@@ -33,7 +33,7 @@ export class SqliteCryptoQueryRepo implements CryptoQueryRepo {
 
     async findAllCryptoLogs(crypto_id: string): Promise<CryptoLog[] | null> {
         const rows: CryptoLogRow[] | null = await this.db.all<CryptoLogRow[]>(
-            'SELECT * FROM crypto_logs WHERE crypto_id = ?',
+            'SELECT * FROM crypto_logs WHERE crypto_id = ? ORDER BY updated_at DESC',
             [crypto_id]
         );
         if (!rows) return null;
