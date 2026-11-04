@@ -1,5 +1,5 @@
 import {CryptoCmdRepo} from "#app/repositories/crypto.cmd.repo.js";
-import {Crypto} from "#app/domain/crypto.js";
+import {Crypto, CryptoLog} from "#app/domain/crypto.js";
 import {CreateCryptoDTO, UpdateCryptoDTO} from "#app/services/admin/crypto.service.js";
 import {Logger} from "#app/common/logger.js";
 import {SqliteDb} from "#app/common/sqlite_db.js";
@@ -88,17 +88,15 @@ export class SqliteCryptoCmdRepo implements CryptoCmdRepo {
     }
 
     async delete(id: string): Promise<boolean> {
-        return null !== await this.db.run('DELETE FROM cryptos WHERE id = ?', [id]);
+        return null !== await this.db.run('DELETE FROM crypto_logs WHERE crypto_id = ?', [id]) &&
+            null !== await this.db.run('DELETE FROM cryptos WHERE id = ?', [id]);
     }
 
-    async saveCryptoLogs(logs: SimplePrice[]): Promise<void> {
-        const data: any[] = [];
-
-        await this.db.run(
+    async saveCryptoLog(log: CryptoLog): Promise<boolean> {
+        return null !== await this.db.run(
             `INSERT INTO crypto_logs (crypto_id, price, updated_at) VALUES (?, ?, ?)`,
-            [data.id, data.name, data.symbol.toUpperCase(), dtStr()]
+            [log.crypto_id, log.price, dtStr()]
         );
-        
     }
-    
+
 }

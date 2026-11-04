@@ -7,6 +7,6 @@ export interface CryptoCmdRepo {
     create(data: CreateCryptoDTO): Promise<Crypto|null>;
     update(id: string, data: UpdateCryptoDTO): Promise<Crypto|null>
     delete(id: string): Promise<boolean>;
-    saveCryptoLogs(logs: CryptoLog[]): Promise<void>;
+    saveCryptoLog(log: CryptoLog): Promise<boolean>;
 }
 

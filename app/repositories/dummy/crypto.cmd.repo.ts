@@ -1,5 +1,5 @@
 import {CryptoCmdRepo} from "#app/repositories/crypto.cmd.repo.js";
-import {Crypto} from "#app/domain/crypto.js";
+import {Crypto, CryptoLog} from "#app/domain/crypto.js";
 import {CreateCryptoDTO, UpdateCryptoDTO} from "#app/services/admin/crypto.service.js";
 
 export class DummyCryptoCmdRepo implements CryptoCmdRepo {
@@ -42,5 +42,9 @@ export class DummyCryptoCmdRepo implements CryptoCmdRepo {
         this.cryptos.splice(index, 1);
 
         return Promise.resolve(true);
+    }
+
+    saveCryptoLog(log: CryptoLog): Promise<boolean> {
+        return Promise.resolve(false);
     }
 }

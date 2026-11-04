@@ -1,6 +1,6 @@
 import {Logger} from "#app/common/logger.js";
 import {NextFunction, Request, Response} from "express";
-import {ApiError} from "#app/common/errors.js";
+import {ApiError, HttpApiError} from "#app/common/errors.js";
 
 const UNAUTHORIZED = 'Unauthorized request';
 
@@ -18,13 +18,13 @@ export function simpleAuthBearerMiddleware(logger: Logger, key: string) {
         }
 
         if (!token) {
-            logger.warn('Request w/o token.');
-            throw new ApiError(401, UNAUTHORIZED);
+            logger.warn(`Request w/o token: ${req.path}`);
+            throw new HttpApiError(401, 4011, UNAUTHORIZED);
         }
 
         if (token !== key) {
-            logger.warn(`Incorrect authorization token used: ${token}`);
-            throw new ApiError(401, UNAUTHORIZED);
+            logger.warn(`Incorrect authorization token: ${token} used: ${req.path}`);
+            throw new HttpApiError(401, 4011, UNAUTHORIZED);
         }
 
         next();

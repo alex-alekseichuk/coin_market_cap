@@ -1,0 +1,27 @@
+export BASE_URL=http://localhost:3000
+export CRYPTO_API="${BASE_URL}/crypto/v1"
+export API_KEY="secret"
+
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "${CRYPTO_API}/"
+
+401
+{"code":4011,"message":"Unauthorized request"}
+
+curl -X GET \
+  -H "Authorization: Bearer ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  "${CRYPTO_API}/"
+
+[
+    {"id":"7efd6df1-a57a-4473-9aa2-3c212c8901a0","name":"Ethereum","symbol":"ETH","price":2319.697715447006,"updated_at":"2026-11-04T08:35:09.000Z"},
+    {"id":"03047684-ec1b-4ea2-8026-ec0b6df852b7","name":"Bitcoin","symbol":"BTC","price":78314.71870916146,"updated_at":"2026-11-04T08:35:09.000Z"}
+]
+
+curl -X GET \
+  -H "Authorization: Bearer ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  "${CRYPTO_API}/BTC/history"
+
+[{"crypto_id":"03047684-ec1b-4ea2-8026-ec0b6df852b7","price":78314.71870916146,"updated_at":"2026-11-04T08:35:09.000Z"}]

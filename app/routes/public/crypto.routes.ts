@@ -8,14 +8,14 @@ export default function buildCryptoRoutes(
     ): Router{
     router = router ?? Router();
 
-    router.get("/", (req: Request, res: Response) => {
-        res.json(cryptoService.getCryptos());
+    router.get("/", async (req: Request, res: Response) => {
+        res.json(await cryptoService.getCryptos());
     });
 
-    router.get("/:symbol/history", (req: Request, res: Response) => {
+    router.get("/:symbol/history", async (req: Request, res: Response) => {
         const symbol = String(req.params.symbol);
 
-        res.json(cryptoService.getCryptoLogsBySymbol(symbol));
+        res.json(await cryptoService.getCryptoLogsBySymbol(symbol));
     });
 
     router.use(apiErrorMiddleware());

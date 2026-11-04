@@ -1,18 +1,56 @@
-curl -X GET http://localhost:3000/api/users \
-  -H "Content-Type: application/json"
+export BASE_URL=http://localhost:3000
+export ADMIN_API="${BASE_URL}/admin/crypto/v1"
+export API_KEY="secret"
+
+curl -X GET \
+  -H "Content-Type: application/json" \
+  "${ADMIN_API}/"
+
+401
+{"code":4011,"message":"Unauthorized request"}
+
+curl -X GET \
+  -H "Authorization: Bearer ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  "${ADMIN_API}/"
+
+[{"id":"03047684-ec1b-4ea2-8026-ec0b6df852b7","name":"Bitcoin","symbol":"BTC","price":78232.19626226205,"updated_at":"2026-11-04T08:05:16.000Z"}]
 
 export UUID=`uuidgen`
 
-curl -X POST http://localhost:3000/api/users \
+curl -X POST \
+    -H "Authorization: Bearer ${API_KEY}" \
     -H "Content-Type: application/json" \
-    -d '{"id":"'${UUID}'","name":"Bitcoin","symbol":"BTC"}'
+    -d '{"id":"'${UUID}'","name":"Bitcoin","symbol":"BTC"}' \
+    "${ADMIN_API}/"
 
-curl -X GET http://localhost:3000/api/users/${UUID} \
-  -H "Content-Type: application/json"
+{"id":"03047684-ec1b-4ea2-8026-ec0b6df852b7","name":"Bitcoin","symbol":"BTC"}
 
-curl -X PATCH http://localhost:3000/api/users/${UUID} \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Bitcoin2"}'
 
-curl -X DELETE http://localhost:3000/api/users/${UUID} \
-  -H "Content-Type: application/json"
+export UUID2=`uuidgen`
+
+curl -X POST \
+    -H "Authorization: Bearer ${API_KEY}" \
+    -H "Content-Type: application/json" \
+    -d '{"id":"'${UUID2}'","name":"Ethereum","symbol":"ETH"}' \
+    "${ADMIN_API}/"
+
+curl -X GET \
+    -H "Authorization: Bearer ${API_KEY}" \
+    -H "Content-Type: application/json" \
+    "${ADMIN_API}/${UUID}/"
+
+{"id":"03047684-ec1b-4ea2-8026-ec0b6df852b7","name":"Bitcoin","symbol":"BTC","price":78232.19626226205,"updated_at":"2026-11-04T08:05:16.000Z"}
+
+curl -X PATCH \
+    -H "Authorization: Bearer ${API_KEY}" \
+    -H "Content-Type: application/json" \
+    -d '{"name":"Bitcoin2"}' \
+    "${ADMIN_API}/${UUID}/"
+
+{"id":"03047684-ec1b-4ea2-8026-ec0b6df852b7","name":"Bitcoin2","symbol":"BTC","price":78232.19626226205,"updated_at":"2026-11-04T08:28:45.457Z"}
+
+curl -X DELETE \
+    -H "Authorization: Bearer ${API_KEY}" \
+    -H "Content-Type: application/json" \
+    "${ADMIN_API}/${UUID}/"

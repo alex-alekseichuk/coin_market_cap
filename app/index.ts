@@ -5,9 +5,11 @@ import {ExpressHttpServer} from "#app/common/express/http_server.js";
 import {httpErrorMiddleware} from "#app/common/express/error.middleware.js";
 import {simpleAuthBearerMiddleware} from "#app/common/express/simple_auth_bearer.middleware.js";
 import {SqliteDb} from "#app/common/sqlite_db.js";
+import {AxiosHttpClient} from "#app/common/axios/http_client.js";
 import {Cron} from "#app/common/cron.js";
 
-//import {DummyCryptoCmdRepo} from "#app/repositories/dummy/crypto.cmd.repo.js";
+import {CoinMarketCapApi} from "#app/api/coin_market_cap.api.js";
+
 import {SqliteCryptoCmdRepo} from "#app/repositories/sqlite/crypto.cmd.repo.js";
 import {SqliteCryptoQueryRepo} from "#app/repositories/sqlite/crypto.query.repo.js";
 
@@ -23,7 +25,6 @@ const logger = new ConsoleLogger();
 
 logger.debug(JSON.stringify(config, null, 2));
 
-// const cryptoCmdRepo = new DummyCryptoCmdRepo();
 const sqliteDb = new SqliteDb(logger);
 if (!await sqliteDb.open()) {
     process.exit(1);
@@ -32,9 +33,11 @@ const cryptoCmdRepo = new SqliteCryptoCmdRepo(logger, sqliteDb);
 await cryptoCmdRepo.init();
 const cryptoQueryRepo = new SqliteCryptoQueryRepo(logger, sqliteDb);
 
+const coinMarketCapApi = new CoinMarketCapApi(logger, config, new AxiosHttpClient(logger));
+
 const adminCryptoService = new AdminCryptoService(cryptoCmdRepo);
 const cryptoService = new CryptoService(cryptoQueryRepo);
-const cryptoLoaderService = new CryptoLoaderService(cryptoCmdRepo);
+const cryptoLoaderService = new CryptoLoaderService(logger, cryptoCmdRepo, coinMarketCapApi);
 
 const http_server = new ExpressHttpServer(logger, config);
 http_server.useMiddleware(simpleAuthBearerMiddleware(logger, config.app.auth_key));
@@ -46,7 +49,7 @@ http_server.useMiddleware(httpErrorMiddleware(logger));
 await http_server.listen(config.app.port ?? 3000);
 
 const cron = new Cron(logger);
-cron.schedule('*/5 * * * *', cryptoLoaderService.load);
+cron.schedule('*/5 * * * *', () => cryptoLoaderService.load());
 cron.start();
 
 const gracefulShutdown = new GracefulShutdown(logger);
