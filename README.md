@@ -54,6 +54,8 @@ It's much simpler than node-cron, but cover all the scheduling needs of the app.
 
 There is graceful_shutdown module to close DB, cron, and http_server on exit.
 
+The validation of HTTP requests is implemented by zod lib.
+
 ## Docker
 
 Build and run:
@@ -96,4 +98,5 @@ docker run -d --name coin-market-cap \
 - add AGENTS.md
 - add /ping route
 - add middleware to log requests
+- add prometheus metrics via open-telemetry
 
